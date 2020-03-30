@@ -1,49 +1,66 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-p {
-  text-align: center;
-  font-size: 60px;
-  margin-top: 0px;
-}
-</style>
-</head>
-<body>
-
-<p id="Clock"></p>
-
-<script>
-// Set the date we're counting up from 
-var countUpDate = new Date("Mar 28, 2020 16:08:25").getTime();
-
-// Update the count up every 1 second
-var x = setInterval(function() {
-
-  // Get today's date and time
-  var now = new Date().getTime();
-    
-  // Find the distance between now and the count down date
-  var distance = countUpDate + now;
-    
-  // Time calculations for days, hours, minutes and seconds
-  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    
-  // Output the result in an element with id="Clock"
-  document.getElementById("Clock").innerHTML = days + "d " + hours + "h "
-  + minutes + "m " + seconds + "s ";
-    
-  // If the count down is over, write some text 
-  if (distance < 0) {
-    clearInterval(x);
-    document.getElementById("Clock").innerHTML = "EXPIRED";
-  }
-}, 1000);
-</script>
-
-</body>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      p {
+        text-align: center;
+        font-size: 60px;
+        margin-top: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <p id="Clock"></p>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"
+      integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      function getRemainingTime(date1, date2) {
+        let years = date1.diff(date2, "year");
+        date2.add(years, "years");
+        let months = date1.diff(date2, "months");
+        date2.add(months, "months");
+        let days = date1.diff(date2, "days");
+        date2.add(days, "days");
+        let hours = date1.diff(date2, "hours");
+        date2.add(hours, "hours");
+        let minutes = date1.diff(date2, "minutes");
+        date2.add(minutes, "minutes");
+        let seconds = date1.diff(date2, "seconds");
+        console.log(
+          years +
+            " years " +
+            months +
+            " months " +
+            days +
+            " days " +
+            hours +
+            "hours " +
+            minutes +
+            " minutes " +
+            seconds +
+            " seconds"
+        );
+        return { years, months, days, hours, minutes, seconds };
+      }
+      // Output the result in an element with id="Clock"
+      //   document.getElementById("Clock").innerHTML =
+      //     days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+      // If the count down is over, write some text
+      setInterval(() => {
+        var date1 = moment("04.04.2020", "DD.MM.YYYY");
+        var date2 = moment();
+        const { days, minutes, hours, seconds } = getRemainingTime(
+          date1,
+          date2
+        );
+        document.getElementById(
+          "Clock"
+        ).innerHTML = `${days} Days ${hours} hours ${minutes} minutes ${seconds} seconds`;
+      }, 1000);
+    </script>
+  </body>
 </html>
